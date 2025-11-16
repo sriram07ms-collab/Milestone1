@@ -54,6 +54,8 @@ data/
 *.json
 !frontend/package-lock.json
 !vercel.json
+vercel.json
+vercel.*
 
 # Testing
 .pytest_cache/
