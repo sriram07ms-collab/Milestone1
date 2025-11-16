@@ -2,9 +2,7 @@ name: Frontend - Pages
 on:
   push:
     branches: [ main ]
-    paths:
-      - 'frontend/**'
-      - '.github/workflows/frontend-pages.yml'
+  workflow_dispatch:
 permissions:
   contents: read
   pages: write
