@@ -53,6 +53,7 @@ data/
 *.csv
 *.json
 !frontend/package-lock.json
+!frontend/package.json
 !vercel.json
 vercel.json
 vercel.*
