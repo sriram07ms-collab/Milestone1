@@ -1,0 +1,58 @@
+===========================================
+HOW TO ADD YOUR GEMINI API KEY
+===========================================
+
+STEP 1: Get Your API Key
+-------------------------
+1. Visit: https://makersuite.google.com/app/apikey
+2. Sign in with your Google account
+3. Click "Create API Key" or "Get API Key"
+4. Copy your API key
+
+STEP 2: Add to .env File
+-------------------------
+1. Open the file named ".env" in the project root directory
+   (Same folder as run_server.py)
+
+2. Find this line:
+   GEMINI_API_KEY=your_api_key_here
+
+3. Replace "your_api_key_here" with your actual API key
+
+4. Save the file
+
+Example:
+--------
+Before: GEMINI_API_KEY=your_api_key_here
+After:  GEMINI_API_KEY=AIzaSyAbCdEfGhIjKlMnOpQrStUvWxYz1234567
+
+IMPORTANT NOTES:
+----------------
+- The .env file is already created in your project
+- Never share your API key with anyone
+- The .env file is automatically ignored by git (it's in .gitignore)
+- Make sure there are NO spaces around the = sign
+- Make sure the API key is on a single line
+
+VERIFY IT WORKS:
+----------------
+After adding your API key, test it:
+  python quick_test.py
+
+Or start the server:
+  python run_server.py
+
+TROUBLESHOOTING:
+----------------
+If the .env file doesn't exist:
+  1. Create a new file named exactly ".env" (with the dot at the start)
+  2. Copy the content from .env.example (if it exists)
+  3. Add your API key
+
+If API key not working:
+  - Check for extra spaces
+  - Make sure the key is valid
+  - Restart the server after changing the .env file
+
+===========================================
+
