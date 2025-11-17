@@ -2,7 +2,7 @@
 import logging
 from typing import Dict, Any, Optional
 from datetime import datetime
-from chatbot.llm_client import GeminiLLMClient
+from chatbot.llm_client import GeminiLLMClient, LLMQuotaExceededError
 from chatbot.query_processor import QueryProcessor
 from chatbot.advice_detector import is_investment_advice_query, get_facts_only_response, EDUCATIONAL_LINKS
 from database.models import Scheme, SchemeFact
@@ -225,15 +225,104 @@ Answer the user's question in 3 sentences or less."""
                 "query_type": query_type
             }
             
+        except LLMQuotaExceededError as e:
+            logger.warning(f"LLM quota exceeded while generating response: {e}")
+            return self._generate_fallback_answer(
+                intent_type,
+                query_type,
+                scheme,
+                facts,
+                retrieved_docs,
+                quota_limited=True
+            )
         except Exception as e:
             logger.error(f"Error generating response from LLM: {e}")
-            logger.info("Attempting fallback to RAG data...")
-            
-            # Fallback: Use RAG data directly if available
-            if retrieved_docs and len(retrieved_docs) > 0:
-                try:
-                    # Build answer from retrieved documents
-                    answer_parts = []
+            return self._generate_fallback_answer(
+                intent_type,
+                query_type,
+                scheme,
+                facts,
+                retrieved_docs,
+                quota_limited=False
+            )
+
+    def _generate_fallback_answer(
+        self,
+        intent_type: str,
+        query_type: str,
+        scheme,
+        facts,
+        retrieved_docs,
+        quota_limited: bool = False
+    ) -> Dict[str, Any]:
+        """
+        Build a fallback answer using stored data.
+        """
+        logger.info("Attempting fallback to stored data")
+        preface = ""
+        if quota_limited:
+            preface = "Temporarily exceeded LLM quota; sharing stored facts instead. "
+        
+        # Fallback: Use RAG data directly if available
+        if retrieved_docs and len(retrieved_docs) > 0:
+            try:
+                answer_parts = []
+                fact_descriptions = {
+                    "expense_ratio": "Expense Ratio",
+                    "exit_load": "Exit Load",
+                    "min_sip": "Minimum SIP",
+                    "min_lumpsum": "Minimum Lumpsum Investment",
+                    "lock_in_period": "Lock-in Period",
+                    "riskometer": "Riskometer",
+                    "benchmark": "Benchmark",
+                    "statement_download": "Statement Download Instructions"
+                }
+                
+                for doc in retrieved_docs[:3]:
+                    metadata = doc.get('metadata', {})
+                    fact_type = metadata.get('fact_type', '')
+                    fact_value = metadata.get('fact_value', '')
+                    scheme_name = metadata.get('scheme_name', '')
+                    
+                    if fact_value and scheme_name:
+                        fact_label = fact_descriptions.get(fact_type, fact_type.replace('_', ' ').title())
+                        answer_parts.append(f"{scheme_name}: {fact_label} is {fact_value}")
+                
+                if answer_parts:
+                    if len(answer_parts) == 1:
+                        answer = answer_parts[0]
+                    else:
+                        limited_parts = answer_parts[:3]
+                        answer = ". ".join(limited_parts) + "."
+                    
+                    answer = f"{preface}{answer}".strip()
+                    source_url = retrieved_docs[0].get('metadata', {}).get('source_url')
+                    scheme_name = retrieved_docs[0].get('metadata', {}).get('scheme_name')
+                    
+                    logger.info("Fallback answer generated from RAG data")
+                    return {
+                        "answer": answer,
+                        "source_url": source_url or "https://groww.in/mutual-funds/amc/icici-prudential-mutual-funds",
+                        "scheme_name": scheme_name,
+                        "fact_type": intent_type,
+                        "query_type": query_type
+                    }
+            except Exception as fallback_error:
+                logger.error(f"Error in RAG fallback: {fallback_error}")
+        
+        # Fallback: Use database facts if available
+        if facts and len(facts) > 0:
+            try:
+                relevant_fact = None
+                for fact in facts:
+                    if fact.fact_type == intent_type:
+                        relevant_fact = fact
+                        break
+                
+                if not relevant_fact:
+                    relevant_fact = facts[0]
+                
+                if relevant_fact:
                     fact_descriptions = {
                         "expense_ratio": "Expense Ratio",
                         "exit_load": "Exit Load",
@@ -245,90 +334,32 @@ Answer the user's question in 3 sentences or less."""
                         "statement_download": "Statement Download Instructions"
                     }
                     
-                    # Use top 3 most relevant documents
-                    for doc in retrieved_docs[:3]:
-                        metadata = doc.get('metadata', {})
-                        fact_type = metadata.get('fact_type', '')
-                        fact_value = metadata.get('fact_value', '')
-                        scheme_name = metadata.get('scheme_name', '')
-                        
-                        if fact_value and scheme_name:
-                            fact_label = fact_descriptions.get(fact_type, fact_type.replace('_', ' ').title())
-                            answer_parts.append(f"{scheme_name}: {fact_label} is {fact_value}")
+                    fact_label = fact_descriptions.get(relevant_fact.fact_type, relevant_fact.fact_type.replace('_', ' ').title())
+                    scheme_name_str = scheme.scheme_name if scheme else "ICICI Prudential Mutual Fund"
+                    answer = f"{scheme_name_str}: {fact_label} is {relevant_fact.fact_value}"
+                    answer = f"{preface}{answer}".strip()
                     
-                    if answer_parts:
-                        # Format answer (max 3 sentences)
-                        if len(answer_parts) == 1:
-                            answer = answer_parts[0]
-                        else:
-                            # Limit to 3 items max
-                            limited_parts = answer_parts[:3]
-                            answer = ". ".join(limited_parts) + "."
-                        
-                        
-                        # Get source URL from most relevant document
-                        source_url = retrieved_docs[0].get('metadata', {}).get('source_url')
-                        scheme_name = retrieved_docs[0].get('metadata', {}).get('scheme_name')
-                        
-                        logger.info(f"Successfully generated fallback answer from RAG data")
-                        return {
-                            "answer": answer,
-                            "source_url": source_url or "https://groww.in/mutual-funds/amc/icici-prudential-mutual-funds",
-                            "scheme_name": scheme_name,
-                            "fact_type": intent_type,
-                            "query_type": query_type
-                        }
-                except Exception as fallback_error:
-                    logger.error(f"Error in RAG fallback: {fallback_error}")
-            
-            # Fallback: Use database facts if available
-            if facts and len(facts) > 0:
-                try:
-                    # Find relevant fact
-                    relevant_fact = None
-                    for fact in facts:
-                        if fact.fact_type == intent_type:
-                            relevant_fact = fact
-                            break
-                    
-                    if not relevant_fact and facts:
-                        relevant_fact = facts[0]  # Use first fact if no match
-                    
-                    if relevant_fact:
-                        fact_descriptions = {
-                            "expense_ratio": "Expense Ratio",
-                            "exit_load": "Exit Load",
-                            "min_sip": "Minimum SIP",
-                            "min_lumpsum": "Minimum Lumpsum Investment",
-                            "lock_in_period": "Lock-in Period",
-                            "riskometer": "Riskometer",
-                            "benchmark": "Benchmark",
-                            "statement_download": "Statement Download Instructions"
-                        }
-                        
-                        fact_label = fact_descriptions.get(relevant_fact.fact_type, relevant_fact.fact_type.replace('_', ' ').title())
-                        scheme_name_str = scheme.scheme_name if scheme else "ICICI Prudential Mutual Fund"
-                        answer = f"{scheme_name_str}: {fact_label} is {relevant_fact.fact_value}"
-                        
-                        
-                        logger.info(f"Successfully generated fallback answer from database facts")
-                        return {
-                            "answer": answer,
-                            "source_url": relevant_fact.source_url or (scheme.groww_url if scheme else "https://groww.in/mutual-funds/amc/icici-prudential-mutual-funds"),
-                            "scheme_name": scheme.scheme_name if scheme else None,
-                            "fact_type": intent_type,
-                            "query_type": query_type
-                        }
-                except Exception as db_fallback_error:
-                    logger.error(f"Error in database fallback: {db_fallback_error}")
-            
-            # Final fallback: Generic error message
-            logger.warning("All fallback mechanisms failed, returning generic error message")
-            return {
-                "answer": "I apologize, but I encountered an error while processing your query. Please try again or rephrase your question.",
-                "source_url": "https://groww.in/mutual-funds/amc/icici-prudential-mutual-funds",
-                "scheme_name": None,
-                "fact_type": intent_type,
-                "query_type": query_type
-            }
+                    logger.info("Fallback answer generated from database facts")
+                    return {
+                        "answer": answer,
+                        "source_url": relevant_fact.source_url or (scheme.groww_url if scheme else "https://groww.in/mutual-funds/amc/icici-prudential-mutual-funds"),
+                        "scheme_name": scheme.scheme_name if scheme else None,
+                        "fact_type": intent_type,
+                        "query_type": query_type
+                    }
+            except Exception as db_fallback_error:
+                logger.error(f"Error in database fallback: {db_fallback_error}")
+        
+        logger.warning("Fallback failed; returning generic error message")
+        generic_message = "I couldn't access the answer service right now. Please try again in a few minutes."
+        if quota_limited:
+            generic_message = "Temporarily exceeded daily limits. Please try again shortly."
+        
+        return {
+            "answer": generic_message,
+            "source_url": "https://groww.in/mutual-funds/amc/icici-prudential-mutual-funds",
+            "scheme_name": None,
+            "fact_type": intent_type,
+            "query_type": query_type
+        }
 

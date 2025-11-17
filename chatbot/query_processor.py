@@ -1,7 +1,7 @@
 """Query processing and intent extraction"""
 import logging
 from typing import Dict, Any, Optional, List
-from chatbot.llm_client import GeminiLLMClient
+from chatbot.llm_client import GeminiLLMClient, LLMQuotaExceededError
 from chatbot.scheme_matcher import SchemeMatcher
 from rag.rag_retriever import RAGRetriever
 from database.models import Scheme, SchemeFact, SessionLocal
@@ -56,6 +56,9 @@ Examples:
             intent = self.llm_client.generate_structured_response(prompt, temperature=0.3)
             logger.info(f"Extracted intent: {intent}")
             return intent
+        except LLMQuotaExceededError as e:
+            logger.warning(f"LLM quota exceeded while extracting intent: {e}. Using fallback intent extraction.")
+            return self._fallback_intent_extraction(query)
         except Exception as e:
             logger.error(f"Error extracting intent: {e}")
             # Fallback to simple pattern matching

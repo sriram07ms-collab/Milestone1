@@ -8,6 +8,11 @@ from config.settings import LOG_LEVEL
 logger = logging.getLogger(__name__)
 
 
+class LLMQuotaExceededError(Exception):
+    """Raised when the LLM rejects a request due to quota/usage limits."""
+    pass
+
+
 class GeminiLLMClient:
     """Client for interacting with Gemini AI"""
     
@@ -59,7 +64,10 @@ class GeminiLLMClient:
             return response.text.strip()
             
         except Exception as e:
-            logger.error(f"Error generating response from Gemini: {e}")
+            message = str(e)
+            logger.error(f"Error generating response from Gemini: {message}")
+            if "429" in message or "quota" in message.lower():
+                raise LLMQuotaExceededError(message)
             raise
     
     def generate_structured_response(self, prompt: str, temperature: float = 0.3) -> Dict[str, Any]:
@@ -73,6 +81,7 @@ class GeminiLLMClient:
         Returns:
             Parsed response as dictionary
         """
+        response_text = ""
         try:
             # Add JSON format instruction
             json_prompt = f"{prompt}\n\nRespond in valid JSON format only."
@@ -92,8 +101,11 @@ class GeminiLLMClient:
                 # Try parsing entire response as JSON
                 return json.loads(response_text)
                 
+        except LLMQuotaExceededError:
+            raise
         except Exception as e:
             logger.error(f"Error generating structured response: {e}")
-            logger.debug(f"Response text: {response_text}")
+            if response_text:
+                logger.debug(f"Response text: {response_text}")
             raise
 
