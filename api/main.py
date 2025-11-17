@@ -37,6 +37,8 @@ _cors_env = os.getenv("BACKEND_CORS_ORIGINS", "")
 _default_origins = [
     "http://localhost:3000",
     "http://127.0.0.1:3000",
+    "http://localhost:5173",
+    "http://127.0.0.1:5173",
 ]
 allow_origins = [o.strip() for o in _cors_env.split(",") if o.strip()] or _default_origins
 
