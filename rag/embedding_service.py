@@ -6,29 +6,25 @@ logger = logging.getLogger(__name__)
 
 
 class EmbeddingService:
-    """Service for generating embeddings using Gemini"""
+    """Service for generating embeddings (lazy model load to reduce memory)"""
     
     def __init__(self, api_key: Optional[str] = None):
         """
-        Initialize embedding service
-        
-        Args:
-            api_key: Optional API key (not required for sentence-transformers)
+        Initialize embedding service without loading the model immediately.
+        Model loads on first embedding call to minimize startup memory.
         """
-        # Use sentence-transformers for embeddings
-        # Note: Gemini doesn't have a dedicated embedding API, so we use sentence-transformers
-        # No API key required for sentence-transformers
-        self._init_sentence_transformer()
+        self.model = None
     
-    def _init_sentence_transformer(self):
-        """Initialize sentence transformer model"""
-        try:
-            from sentence_transformers import SentenceTransformer
-            # Use a lightweight, fast model for embeddings
-            self.model = SentenceTransformer('all-MiniLM-L6-v2')
-            logger.info("Initialized sentence-transformer model: all-MiniLM-L6-v2")
-        except ImportError:
-            raise ImportError("sentence-transformers is required. Install with: pip install sentence-transformers")
+    def _ensure_model(self):
+        """Load sentence-transformer model if not already loaded"""
+        if self.model is None:
+            try:
+                from sentence_transformers import SentenceTransformer
+                # Use a lightweight, fast model for embeddings
+                self.model = SentenceTransformer('all-MiniLM-L6-v2')
+                logger.info("Initialized sentence-transformer model: all-MiniLM-L6-v2")
+            except ImportError:
+                raise ImportError("sentence-transformers is required. Install with: pip install sentence-transformers")
     
     def generate_embedding(self, text: str) -> List[float]:
         """
@@ -43,14 +39,14 @@ class EmbeddingService:
         if not text or not text.strip():
             raise ValueError("Text cannot be empty")
         
-        # For now, use sentence-transformers as Gemini doesn't have a dedicated embedding API
-        # In the future, if Gemini adds embedding support, we can switch
-        if hasattr(self, 'model'):
+        # Load model on demand
+        try:
+            self._ensure_model()
             embedding = self.model.encode(text, normalize_embeddings=True)
             return embedding.tolist()
-        else:
+        except ImportError:
             # Fallback: use a simple hash-based approach (not recommended for production)
-            logger.warning("Using fallback embedding method")
+            logger.warning("Using fallback embedding method (sentence-transformers not installed)")
             return self._simple_embedding(text)
     
     def generate_embeddings_batch(self, texts: List[str], batch_size: int = 32) -> List[List[float]]:
@@ -64,16 +60,17 @@ class EmbeddingService:
         Returns:
             List of embedding vectors
         """
-        if hasattr(self, 'model'):
+        try:
+            self._ensure_model()
             embeddings = self.model.encode(
                 texts,
                 batch_size=batch_size,
                 normalize_embeddings=True,
-                show_progress_bar=True
+                show_progress_bar=False
             )
             return embeddings.tolist()
-        else:
-            return [self.generate_embedding(text) for text in texts]
+        except ImportError:
+            return [self._simple_embedding(text) for text in texts]
     
     def _simple_embedding(self, text: str) -> List[float]:
         """Simple fallback embedding (not recommended for production)"""

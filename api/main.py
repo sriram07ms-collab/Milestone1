@@ -49,6 +49,10 @@ async def root():
         "docs": "/docs"
     }
 
+@app.head("/")
+async def root_head():
+    """HEAD root for platform health probes"""
+    return {}
 
 if __name__ == "__main__":
     import uvicorn

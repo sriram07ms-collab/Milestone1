@@ -1,10 +1,11 @@
 """API routes"""
 import logging
+import os
 from fastapi import APIRouter, HTTPException, Depends
 from typing import List
 from api.schemas import (
     ChatRequest, ChatResponse, SchemeDetailResponse,
-    SchemesListResponse, HealthResponse
+    SchemesListResponse, HealthResponse, SchemeInfo, SchemeFactInfo
 )
 from chatbot.query_processor import QueryProcessor
 from chatbot.response_generator import ResponseGenerator
@@ -189,8 +190,6 @@ async def get_scheme_details(scheme_id: int):
                 is_active=True
             ).all()
             
-            from api.schemas import SchemeInfo, SchemeFactInfo
-            
             scheme_info = SchemeInfo(
                 scheme_id=scheme.scheme_id,
                 scheme_name=scheme.scheme_name,
@@ -246,16 +245,18 @@ async def health_check():
         except Exception:
             pass
         
-        # Check RAG system
+        # Check RAG system (optional; avoid heavy init on health)
         rag_configured = False
-        try:
-            rag_retriever = get_rag_retriever()
-            if rag_retriever:
-                vector_store = get_vector_store()
-                if vector_store and vector_store.get_count() > 0:
-                    rag_configured = True
-        except Exception:
-            pass
+        rag_enabled = os.getenv("RAG_ENABLED", "false").lower() in ("1", "true", "yes")
+        if rag_enabled:
+            try:
+                rag_retriever = get_rag_retriever()
+                if rag_retriever:
+                    vector_store = get_vector_store()
+                    if vector_store and vector_store.get_count() > 0:
+                        rag_configured = True
+            except Exception:
+                pass
         
         status = "healthy" if (db_connected and llm_configured) else "degraded"
         message = "All systems operational" if status == "healthy" else "Some services unavailable"

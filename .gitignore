@@ -50,6 +50,7 @@ Thumbs.db
 
 # Data
 data/
+vector_db/
 *.csv
 *.json
 !frontend/package-lock.json
