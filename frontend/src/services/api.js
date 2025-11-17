@@ -16,11 +16,16 @@ export const sendMessage = async (query) => {
     return response.data
   } catch (error) {
     if (error.response) {
-      throw new Error(error.response.data.detail || 'Failed to get response')
+      // Show actual error message from backend
+      const errorDetail = error.response.data?.detail || error.response.data?.message || 'Failed to get response'
+      console.error('Backend error:', error.response.status, errorDetail)
+      throw new Error(errorDetail)
     } else if (error.request) {
+      console.error('No response from server:', error.request)
       throw new Error('Unable to connect to server. Please make sure the backend is running.')
     } else {
-      throw new Error('An error occurred while sending the message')
+      console.error('Request setup error:', error.message)
+      throw new Error(`An error occurred: ${error.message}`)
     }
   }
 }

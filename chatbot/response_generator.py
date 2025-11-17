@@ -204,7 +204,7 @@ Answer the user's question in 3 sentences or less."""
                 source_url = retrieved_docs[0].get('metadata', {}).get('source_url')
             elif scheme:
                 source_url = scheme.groww_url
-            elif facts:
+            elif facts and len(facts) > 0:
                 source_url = facts[0].source_url
             
             # Parse answer to extract source URL if mentioned
@@ -213,9 +213,13 @@ Answer the user's question in 3 sentences or less."""
             if url_match:
                 source_url = url_match.group(0)
             
+            # Ensure we have a valid source URL
+            if not source_url:
+                source_url = "https://groww.in/mutual-funds/amc/icici-prudential-mutual-funds"
+            
             return {
                 "answer": answer,
-                "source_url": source_url or "https://groww.in/mutual-funds/amc/icici-prudential-mutual-funds",
+                "source_url": source_url,
                 "scheme_name": scheme.scheme_name if scheme else None,
                 "fact_type": intent_type,
                 "query_type": query_type

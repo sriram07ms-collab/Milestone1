@@ -108,6 +108,15 @@ async def chat(request: ChatRequest):
     factual answers with source URLs.
     """
     try:
+        # Check if database has any data
+        with get_db_session() as db:
+            scheme_count = db.query(Scheme).count()
+            if scheme_count == 0:
+                raise HTTPException(
+                    status_code=503,
+                    detail="Database is empty. The system needs fund data to answer questions. Please contact the administrator to populate the database."
+                )
+        
         query_processor = get_query_processor()
         response_generator = get_response_generator()
         
@@ -138,11 +147,18 @@ async def chat(request: ChatRequest):
             last_updated=last_updated
         )
         
+    except HTTPException:
+        # Re-raise HTTP exceptions as-is
+        raise
     except Exception as e:
         logger.error(f"Error processing chat request: {e}", exc_info=True)
+        # Provide more helpful error message
+        error_msg = str(e)
+        if "No schemes found" in error_msg or "database" in error_msg.lower():
+            error_msg = "Database is empty. Please populate the database with fund data first."
         raise HTTPException(
             status_code=500,
-            detail=f"Error processing request: {str(e)}"
+            detail=error_msg
         )
 
 

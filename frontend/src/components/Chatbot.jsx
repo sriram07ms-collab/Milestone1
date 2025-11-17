@@ -44,9 +44,10 @@ function Chatbot() {
         factType: response.fact_type
       }])
     } catch (error) {
+      const errorMessage = error.message || 'Sorry, I encountered an error. Please try again or check if the backend server is running.'
       setMessages(prev => [...prev, {
         role: 'assistant',
-        content: 'Sorry, I encountered an error. Please try again or check if the backend server is running.',
+        content: errorMessage,
         sourceUrl: null
       }])
       console.error('Error sending message:', error)
