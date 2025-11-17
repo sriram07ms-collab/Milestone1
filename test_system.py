@@ -4,7 +4,7 @@ import sys
 import time
 
 BACKEND_URL = "http://localhost:8000"
-FRONTEND_URL = "http://localhost:5173"
+FRONTEND_URL = "http://localhost:3000"
 
 def test_backend():
     """Test backend health and chat endpoint"""
