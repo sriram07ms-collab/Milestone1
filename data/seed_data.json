@@ -1,0 +1,286 @@
+{
+  "schemes": [
+    {
+      "scheme_slug": "icici-prudential-top-100-fund-direct-growth",
+      "scheme_name": "ICICI Prudential Large & Mid Cap Fund Direct Plan Growth",
+      "category": "Large & MidCap",
+      "risk_level": "Filter funds based on risk, fund size and more",
+      "nav": 1179.13,
+      "expense_ratio": "0.77%",
+      "rating": 5,
+      "fund_size_cr": 25752.59,
+      "returns_1y": null,
+      "returns_3y": "-0.06%",
+      "returns_5y": null,
+      "groww_url": "https://groww.in/mutual-funds/icici-prudential-top-100-fund-direct-growth"
+    },
+    {
+      "scheme_slug": "icici-prudential-midcap-fund-direct-growth",
+      "scheme_name": "ICICI Prudential Midcap Direct Plan Growth",
+      "category": "Mid Cap",
+      "risk_level": "Filter funds based on risk, fund size and more",
+      "nav": 350.81,
+      "expense_ratio": "1.03%",
+      "rating": 3,
+      "fund_size_cr": 6963.67,
+      "returns_1y": null,
+      "returns_3y": "-0.02%",
+      "returns_5y": null,
+      "groww_url": "https://groww.in/mutual-funds/icici-prudential-midcap-fund-direct-growth"
+    },
+    {
+      "scheme_slug": "icici-prudential-large-cap-fund-direct-growth",
+      "scheme_name": "ICICI Prudential Large Cap Fund Direct Growth",
+      "category": "Large Cap",
+      "risk_level": "Filter funds based on risk, fund size and more",
+      "nav": 126.42,
+      "expense_ratio": "0.85%",
+      "rating": 5,
+      "fund_size_cr": 75863.08,
+      "returns_1y": null,
+      "returns_3y": "-0.02%",
+      "returns_5y": null,
+      "groww_url": "https://groww.in/mutual-funds/icici-prudential-large-cap-fund-direct-growth"
+    },
+    {
+      "scheme_slug": "icici-prudential-nifty-midcap-150-index-fund-direct-growth",
+      "scheme_name": "ICICI Prudential Nifty Midcap 150 Index Fund Direct Growth",
+      "category": "Mid Cap",
+      "risk_level": "Filter funds based on risk, fund size and more",
+      "nav": 19.93,
+      "expense_ratio": "0.30%",
+      "rating": 3,
+      "fund_size_cr": 900.52,
+      "returns_1y": null,
+      "returns_3y": "+0.05%",
+      "returns_5y": null,
+      "groww_url": "https://groww.in/mutual-funds/icici-prudential-nifty-midcap-150-index-fund-direct-growth"
+    },
+    {
+      "scheme_slug": "icici-prudential-indo-asia-equity-fund-direct-growth",
+      "scheme_name": "ICICI Prudential Smallcap Fund Direct Plan Growth",
+      "category": "Small Cap",
+      "risk_level": "Filter funds based on risk, fund size and more",
+      "nav": 98.31,
+      "expense_ratio": "0.76%",
+      "rating": 3,
+      "fund_size_cr": 8621.53,
+      "returns_1y": null,
+      "returns_3y": "-0.08%",
+      "returns_5y": null,
+      "groww_url": "https://groww.in/mutual-funds/icici-prudential-indo-asia-equity-fund-direct-growth"
+    }
+  ],
+  "facts": [
+    {
+      "scheme_slug": "icici-prudential-top-100-fund-direct-growth",
+      "fact_type": "expense_ratio",
+      "fact_value": "0.77%",
+      "source_url": "https://groww.in/mutual-funds/icici-prudential-top-100-fund-direct-growth",
+      "extraction_date": "2025-11-15"
+    },
+    {
+      "scheme_slug": "icici-prudential-top-100-fund-direct-growth",
+      "fact_type": "exit_load",
+      "fact_value": "Exit load of 1% if redeemed within 1 month",
+      "source_url": "https://groww.in/mutual-funds/icici-prudential-top-100-fund-direct-growth",
+      "extraction_date": "2025-11-15"
+    },
+    {
+      "scheme_slug": "icici-prudential-top-100-fund-direct-growth",
+      "fact_type": "min_lumpsum",
+      "fact_value": "₹5000",
+      "source_url": "https://groww.in/mutual-funds/icici-prudential-top-100-fund-direct-growth",
+      "extraction_date": "2025-11-15"
+    },
+    {
+      "scheme_slug": "icici-prudential-top-100-fund-direct-growth",
+      "fact_type": "min_sip",
+      "fact_value": "₹100",
+      "source_url": "https://groww.in/mutual-funds/icici-prudential-top-100-fund-direct-growth",
+      "extraction_date": "2025-11-15"
+    },
+    {
+      "scheme_slug": "icici-prudential-top-100-fund-direct-growth",
+      "fact_type": "lock_in_period",
+      "fact_value": "3 years",
+      "source_url": "https://groww.in/mutual-funds/icici-prudential-top-100-fund-direct-growth",
+      "extraction_date": "2025-11-15"
+    },
+    {
+      "scheme_slug": "icici-prudential-top-100-fund-direct-growth",
+      "fact_type": "riskometer",
+      "fact_value": "Filter funds based on risk, fund size and more",
+      "source_url": "https://groww.in/mutual-funds/icici-prudential-top-100-fund-direct-growth",
+      "extraction_date": "2025-11-15"
+    },
+    {
+      "scheme_slug": "icici-prudential-top-100-fund-direct-growth",
+      "fact_type": "statement_download",
+      "fact_value": "Please visit your Groww account to download statements. You can find statements in the 'My Investments' section.",
+      "source_url": "https://groww.in/mutual-funds/icici-prudential-top-100-fund-direct-growth",
+      "extraction_date": "2025-11-15"
+    },
+    {
+      "scheme_slug": "icici-prudential-midcap-fund-direct-growth",
+      "fact_type": "expense_ratio",
+      "fact_value": "1.03%",
+      "source_url": "https://groww.in/mutual-funds/icici-prudential-midcap-fund-direct-growth",
+      "extraction_date": "2025-11-15"
+    },
+    {
+      "scheme_slug": "icici-prudential-midcap-fund-direct-growth",
+      "fact_type": "exit_load",
+      "fact_value": "Exit load of 1% if redeemed within 1 year",
+      "source_url": "https://groww.in/mutual-funds/icici-prudential-midcap-fund-direct-growth",
+      "extraction_date": "2025-11-15"
+    },
+    {
+      "scheme_slug": "icici-prudential-midcap-fund-direct-growth",
+      "fact_type": "min_sip",
+      "fact_value": "₹100",
+      "source_url": "https://groww.in/mutual-funds/icici-prudential-midcap-fund-direct-growth",
+      "extraction_date": "2025-11-15"
+    },
+    {
+      "scheme_slug": "icici-prudential-midcap-fund-direct-growth",
+      "fact_type": "lock_in_period",
+      "fact_value": "3 years",
+      "source_url": "https://groww.in/mutual-funds/icici-prudential-midcap-fund-direct-growth",
+      "extraction_date": "2025-11-15"
+    },
+    {
+      "scheme_slug": "icici-prudential-midcap-fund-direct-growth",
+      "fact_type": "riskometer",
+      "fact_value": "Filter funds based on risk, fund size and more",
+      "source_url": "https://groww.in/mutual-funds/icici-prudential-midcap-fund-direct-growth",
+      "extraction_date": "2025-11-15"
+    },
+    {
+      "scheme_slug": "icici-prudential-midcap-fund-direct-growth",
+      "fact_type": "statement_download",
+      "fact_value": "Please visit your Groww account to download statements. You can find statements in the 'My Investments' section.",
+      "source_url": "https://groww.in/mutual-funds/icici-prudential-midcap-fund-direct-growth",
+      "extraction_date": "2025-11-15"
+    },
+    {
+      "scheme_slug": "icici-prudential-large-cap-fund-direct-growth",
+      "fact_type": "expense_ratio",
+      "fact_value": "0.85%",
+      "source_url": "https://groww.in/mutual-funds/icici-prudential-large-cap-fund-direct-growth",
+      "extraction_date": "2025-11-15"
+    },
+    {
+      "scheme_slug": "icici-prudential-large-cap-fund-direct-growth",
+      "fact_type": "min_lumpsum",
+      "fact_value": "₹100",
+      "source_url": "https://groww.in/mutual-funds/icici-prudential-large-cap-fund-direct-growth",
+      "extraction_date": "2025-11-15"
+    },
+    {
+      "scheme_slug": "icici-prudential-large-cap-fund-direct-growth",
+      "fact_type": "min_sip",
+      "fact_value": "₹100",
+      "source_url": "https://groww.in/mutual-funds/icici-prudential-large-cap-fund-direct-growth",
+      "extraction_date": "2025-11-15"
+    },
+    {
+      "scheme_slug": "icici-prudential-large-cap-fund-direct-growth",
+      "fact_type": "lock_in_period",
+      "fact_value": "3 years",
+      "source_url": "https://groww.in/mutual-funds/icici-prudential-large-cap-fund-direct-growth",
+      "extraction_date": "2025-11-15"
+    },
+    {
+      "scheme_slug": "icici-prudential-large-cap-fund-direct-growth",
+      "fact_type": "riskometer",
+      "fact_value": "Filter funds based on risk, fund size and more",
+      "source_url": "https://groww.in/mutual-funds/icici-prudential-large-cap-fund-direct-growth",
+      "extraction_date": "2025-11-15"
+    },
+    {
+      "scheme_slug": "icici-prudential-large-cap-fund-direct-growth",
+      "fact_type": "statement_download",
+      "fact_value": "Please visit your Groww account to download statements. You can find statements in the 'My Investments' section.",
+      "source_url": "https://groww.in/mutual-funds/icici-prudential-large-cap-fund-direct-growth",
+      "extraction_date": "2025-11-15"
+    },
+    {
+      "scheme_slug": "icici-prudential-nifty-midcap-150-index-fund-direct-growth",
+      "fact_type": "expense_ratio",
+      "fact_value": "0.30%",
+      "source_url": "https://groww.in/mutual-funds/icici-prudential-nifty-midcap-150-index-fund-direct-growth",
+      "extraction_date": "2025-11-15"
+    },
+    {
+      "scheme_slug": "icici-prudential-nifty-midcap-150-index-fund-direct-growth",
+      "fact_type": "min_lumpsum",
+      "fact_value": "₹100",
+      "source_url": "https://groww.in/mutual-funds/icici-prudential-nifty-midcap-150-index-fund-direct-growth",
+      "extraction_date": "2025-11-15"
+    },
+    {
+      "scheme_slug": "icici-prudential-nifty-midcap-150-index-fund-direct-growth",
+      "fact_type": "min_sip",
+      "fact_value": "₹100",
+      "source_url": "https://groww.in/mutual-funds/icici-prudential-nifty-midcap-150-index-fund-direct-growth",
+      "extraction_date": "2025-11-15"
+    },
+    {
+      "scheme_slug": "icici-prudential-nifty-midcap-150-index-fund-direct-growth",
+      "fact_type": "lock_in_period",
+      "fact_value": "3 years",
+      "source_url": "https://groww.in/mutual-funds/icici-prudential-nifty-midcap-150-index-fund-direct-growth",
+      "extraction_date": "2025-11-15"
+    },
+    {
+      "scheme_slug": "icici-prudential-nifty-midcap-150-index-fund-direct-growth",
+      "fact_type": "riskometer",
+      "fact_value": "Filter funds based on risk, fund size and more",
+      "source_url": "https://groww.in/mutual-funds/icici-prudential-nifty-midcap-150-index-fund-direct-growth",
+      "extraction_date": "2025-11-15"
+    },
+    {
+      "scheme_slug": "icici-prudential-nifty-midcap-150-index-fund-direct-growth",
+      "fact_type": "statement_download",
+      "fact_value": "Please visit your Groww account to download statements. You can find statements in the 'My Investments' section.",
+      "source_url": "https://groww.in/mutual-funds/icici-prudential-nifty-midcap-150-index-fund-direct-growth",
+      "extraction_date": "2025-11-15"
+    },
+    {
+      "scheme_slug": "icici-prudential-indo-asia-equity-fund-direct-growth",
+      "fact_type": "expense_ratio",
+      "fact_value": "0.76%",
+      "source_url": "https://groww.in/mutual-funds/icici-prudential-indo-asia-equity-fund-direct-growth",
+      "extraction_date": "2025-11-15"
+    },
+    {
+      "scheme_slug": "icici-prudential-indo-asia-equity-fund-direct-growth",
+      "fact_type": "min_sip",
+      "fact_value": "₹100",
+      "source_url": "https://groww.in/mutual-funds/icici-prudential-indo-asia-equity-fund-direct-growth",
+      "extraction_date": "2025-11-15"
+    },
+    {
+      "scheme_slug": "icici-prudential-indo-asia-equity-fund-direct-growth",
+      "fact_type": "lock_in_period",
+      "fact_value": "3 years",
+      "source_url": "https://groww.in/mutual-funds/icici-prudential-indo-asia-equity-fund-direct-growth",
+      "extraction_date": "2025-11-15"
+    },
+    {
+      "scheme_slug": "icici-prudential-indo-asia-equity-fund-direct-growth",
+      "fact_type": "riskometer",
+      "fact_value": "Filter funds based on risk, fund size and more",
+      "source_url": "https://groww.in/mutual-funds/icici-prudential-indo-asia-equity-fund-direct-growth",
+      "extraction_date": "2025-11-15"
+    },
+    {
+      "scheme_slug": "icici-prudential-indo-asia-equity-fund-direct-growth",
+      "fact_type": "statement_download",
+      "fact_value": "Please visit your Groww account to download statements. You can find statements in the 'My Investments' section.",
+      "source_url": "https://groww.in/mutual-funds/icici-prudential-indo-asia-equity-fund-direct-growth",
+      "extraction_date": "2025-11-15"
+    }
+  ]
+}

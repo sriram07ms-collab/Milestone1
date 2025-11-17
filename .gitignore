@@ -50,9 +50,12 @@ Thumbs.db
 
 # Data
 data/
+!data/
+!data/seed_data.json
 # vector_db/  # Uncommented to allow committing vector database
 *.csv
 *.json
+!data/seed_data.json
 !frontend/package-lock.json
 !frontend/package.json
 !vercel.json

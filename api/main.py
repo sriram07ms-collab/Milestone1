@@ -6,6 +6,7 @@ from fastapi.middleware.cors import CORSMiddleware
 from api.routes import router
 from config.settings import LOG_LEVEL
 from database.models import init_db
+from scripts.seed_database import seed_database_from_file
 
 logging.basicConfig(
     level=LOG_LEVEL,
@@ -18,6 +19,9 @@ logger = logging.getLogger(__name__)
 try:
     init_db()
     logger.info("Database initialized successfully")
+    seeded = seed_database_from_file()
+    if seeded:
+        logger.info("Database seeded with default data")
 except Exception as e:
     logger.warning(f"Database initialization warning: {e}")
 
