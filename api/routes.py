@@ -234,8 +234,19 @@ async def health_check():
             with get_db_session() as db:
                 db.query(Scheme).first()
                 db_connected = True
-        except Exception:
-            pass
+        except Exception as e:
+            logger.warning(f"Database connection check failed: {e}")
+            # Try to initialize if not connected
+            try:
+                from database.models import init_db
+                init_db()
+                # Retry connection
+                with get_db_session() as db:
+                    db.query(Scheme).first()
+                    db_connected = True
+                    logger.info("Database initialized and connected")
+            except Exception as init_error:
+                logger.error(f"Database initialization failed: {init_error}")
         
         # Check LLM
         llm_configured = False

@@ -5,6 +5,7 @@ from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 from api.routes import router
 from config.settings import LOG_LEVEL
+from database.models import init_db
 
 logging.basicConfig(
     level=LOG_LEVEL,
@@ -12,6 +13,13 @@ logging.basicConfig(
 )
 
 logger = logging.getLogger(__name__)
+
+# Initialize database on startup
+try:
+    init_db()
+    logger.info("Database initialized successfully")
+except Exception as e:
+    logger.warning(f"Database initialization warning: {e}")
 
 # Create FastAPI app
 app = FastAPI(

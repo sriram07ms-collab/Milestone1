@@ -20,7 +20,9 @@ GROWW_BASE_URL = "https://groww.in"
 GROWW_ICICI_AMC_URL = "https://groww.in/mutual-funds/amc/icici-prudential-mutual-funds"
 
 # Database configuration
-DATABASE_URL = os.getenv("DATABASE_URL", "sqlite:///./icici_funds.db")
+# On Render, use absolute path for SQLite to ensure writable location
+_default_db_path = os.path.join(os.getcwd(), "icici_funds.db")
+DATABASE_URL = os.getenv("DATABASE_URL", f"sqlite:///{_default_db_path}")
 
 # Scraping configuration
 REQUEST_DELAY = 2  # seconds between requests
