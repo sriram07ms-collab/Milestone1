@@ -50,7 +50,7 @@ Thumbs.db
 
 # Data
 data/
-vector_db/
+# vector_db/  # Uncommented to allow committing vector database
 *.csv
 *.json
 !frontend/package-lock.json
